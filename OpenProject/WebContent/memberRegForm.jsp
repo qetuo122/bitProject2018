@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td>사진</td>
-                <td><input type="file" value = "사진선택" alt = "사진없음"></td>
+                <td><input type="file"  value = "사진선택"  alt = "사진없음"></td>
             </tr>
             <tr>
                 <td colspan="2"><input type = "submit" value = "등록"></td>
