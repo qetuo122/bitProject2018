@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+	request.setCharacterEncoding("utf-8");
+
+	String userId = request.getParameter("userId");
+	String password = request.getParameter("password");
+	String userName = request.getParameter("userName");
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,28 +27,23 @@
 <div id = #contents>
 <h2>회원 가입</h2>
     <hr>
-    <form action = "memberReg.jsp" method = "post">
         <table>
             <tr>
                 <td>아이디(이메일)</td>
-                <td><input type="text" name = "userId"></td>
+                <td><%= userId %></td>
             </tr>
             <tr>
                 <td>비밀번호</td>
-                <td><input type="password" name = "password"></td>
+                <td><%= password %></td>
             </tr>
             <tr>
                 <td>이름</td>
-                <td><input type = "text" name = userName></td>
+                <td><%= userName %></td>
             </tr>
             <tr>
                 <td>사진</td>
                 <td><input type="file"  value = "사진선택"  alt = "사진없음" name = "photoFile"></td>
             </tr>
-            <tr>
-                <td colspan="2"><input type = "submit" value = "등록"></td>
-            </tr>
         </table>
-    </form>
 </body>
 </html>
