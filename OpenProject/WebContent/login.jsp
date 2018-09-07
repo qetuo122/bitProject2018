@@ -11,6 +11,7 @@
 		request.getSession(false).setAttribute("userId", id);
 		request.getSession(false).setAttribute("userName", "홍길동");
 		response.sendRedirect("myPage.jsp");			
+		
 	}
 %>
 <html>
