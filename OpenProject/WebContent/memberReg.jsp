@@ -24,6 +24,7 @@
 <body>
 <%@ include file = "common/header.jsp" %>
 
+
 <div id = #contents>
 <h2>회원 가입</h2>
     <hr>
