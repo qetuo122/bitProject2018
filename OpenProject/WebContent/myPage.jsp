@@ -1,11 +1,11 @@
+<%@page import="member.model.MemberInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	
-	String id = (String)request.getSession(false).getAttribute("userId"); //오브젝트로 들어오므로 스트링으로 타입변경
-	String name = (String)request.getSession(false).getAttribute("userName");
+	MemberInfo mem = (MemberInfo) request.getSession(false).getAttribute("members");
 	
-	if(id == null) {
+	if(mem == null) {
 		%>
 		<script>
 			alert('로그인 후 사용가능한 서비스 입니다.');
@@ -46,12 +46,12 @@
         <table>
             <tr>
                 <td>아이디(이메일)</td>
-                <td><%= id %></td>
+                <td><%= mem.getUserId() %></td>
             </tr>
             
             <tr>
                 <td>이름</td>
-                <td><%= name %></td>
+                <td><%= mem.getUserName() %></td>
             </tr>
             
         </table>

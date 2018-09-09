@@ -2,14 +2,14 @@ package member.model;
 
 public class MemberInfo {
 	
-		String userId = "";
-		String password = "";
-		String userName = "";
-		String photoFile = "";
+		String userId;
+		String password;
+		String userName;
+		String photoFile;
 		
-		MemberInfo (){}
+		public MemberInfo (){}
 		
-		MemberInfo (String userId, String password, String userName, String photoFile){
+		public MemberInfo (String userId, String password, String userName, String photoFile){
 			this.userId = userId;
 			this.password = password;
 			this.userName = userName;

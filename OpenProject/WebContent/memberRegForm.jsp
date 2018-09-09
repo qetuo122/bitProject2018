@@ -18,7 +18,7 @@
 <div id = #contents>
 <h2>회원 가입</h2>
     <hr>
-    <form action = "memberReg.jsp" method = "post">
+    <form action = "regist.jsp" method = "post">
         <table>
             <tr>
                 <td>아이디(이메일)</td>
