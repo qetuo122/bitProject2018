@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="css/default.css">
 </head>
 <body>
 	<h1 class = "title">OpenProject</h1>

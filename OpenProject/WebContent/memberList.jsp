@@ -1,8 +1,21 @@
 <%@page import="member.model.MemberInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	
+	MemberInfo mem = (MemberInfo) request.getSession(false).getAttribute("members");
+	
+	if(mem == null) {
+		%>
+		<script>
+			alert('ë¡œê·¸ì¸ í›„ ì‚¬ìš©ê°€ëŠ¥í•œ ì„œë¹„ìŠ¤ ì…ë‹ˆë‹¤.');
+			location.href = 'loginform.jsp';
+		</script>
+		<%
+	} else {
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,30 +24,45 @@
 <style>
 	#memTable, tr, td{
 		border : 1px solid black;
+		text-align : center;
+	}
+	#listTitle{
+		margin : 10px;
+	}
+	#memTable{
+		margin:10px;
+		width : 700px;
+		height : 150px;
 	}
 </style>
 </head>
 <body>
+<%@ include file = "common/header.jsp" %>
+<h1 id = "listTitle">íšŒì› ë¦¬ìŠ¤íŠ¸</h1>
 <table id = "memTable">
 	<tr>
-		<td><h1>È¸¿ø ID</h1></td>
-		<td><h1>È¸¿ø ÀÌ¸§</h1></td>
+		<td><h1>íšŒì› ID</h1></td>
+		<td><h1>ë¹„ë°€ë²ˆí˜¸</h1></td>
+		<td><h1>íšŒì› ì´ë¦„</h1></td>
+		<td><h1>ê´€ë¦¬</h1></td>
 	</tr>
 <%
-	//¾îÇÃ¸®ÄÉÀÌ¼Ç¿¡ ÀúÀåµÈ Á¤º¸¸¦ ÀüºÎ ºÒ·¯¿Â´Ù.
-	//Å×ÀÌºíÀ» ¸¸µé°í ÀúÀåµÈ ±âÁ¸ Á¤º¸¸¦ Â÷·Ê´ë·Î ÀÔ·ÂÇÑ´Ù.
-	//¾îÇÃ¸®ÄÉÀÌ¼Ç¿¡ ÀúÀåµÈ°ÍÀÌ ÀÖ´Ù¸é
+	//ì–´í”Œë¦¬ì¼€ì´ì…˜ì— ì €ì¥ëœ ì •ë³´ë¥¼ ì „ë¶€ ë¶ˆëŸ¬ì˜¨ë‹¤.
+	//í…Œì´ë¸”ì„ ë§Œë“¤ê³  ì €ì¥ëœ ê¸°ì¡´ ì •ë³´ë¥¼ ì°¨ë¡€ëŒ€ë¡œ ì…ë ¥í•œë‹¤.
+	//ì–´í”Œë¦¬ì¼€ì´ì…˜ì— ì €ì¥ëœê²ƒì´ ìˆë‹¤ë©´
 	if(application.getAttribute("members") != null){
-		//ÀúÀÚµÈ Á¤º¸¸¦ ¸®½ºÆ®¿¡ ´ã´Â´Ù.
+		//ì €ìëœ ì •ë³´ë¥¼ ë¦¬ìŠ¤íŠ¸ì— ë‹´ëŠ”ë‹¤.
 		List memList = (ArrayList) application.getAttribute("members");
 		
-		//¹İº¹¹®À» µ¹·Á È¸¿ø¸®½ÃÆ®¸¦ ¸â¹ö¿¡ ´ã°í Å×ÀÌºí¿¡ ±×¸°´Ù.
+		//ë°˜ë³µë¬¸ì„ ëŒë ¤ íšŒì›ë¦¬ì‹œíŠ¸ë¥¼ ë©¤ë²„ì— ë‹´ê³  í…Œì´ë¸”ì— ê·¸ë¦°ë‹¤.
 		for(int i = 0;  i < memList.size(); i++){
-			MemberInfo mem = (MemberInfo) memList.get(i);
+			MemberInfo member = (MemberInfo) memList.get(i);
 			%>
 			<tr>
-				<td><%= mem.getUserId() %></td>
-				<td><%= mem.getUserName() %></td>
+				<td><%= member.getUserId() %></td>
+				<td><%= member.getPassword() %></td>
+				<td><%= member.getUserName() %></td>
+				<td><input type = "button" value = "ìˆ˜ì •" id = "modi"> <input type = "button" value = "ì‚­ì œ" id = "del"></td>
 			</tr>
 			
 			<%
@@ -46,3 +74,7 @@
 
 </body>
 </html>
+<%} %>
+<script>
+	
+</script>
