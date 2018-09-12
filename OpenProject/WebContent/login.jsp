@@ -9,6 +9,7 @@
 	
 	String id = request.getParameter("userId");
 	String pwd = request.getParameter("password");
+	String rememberChk = request.getParameter("rememberChk");
 	
 	List members = new ArrayList<MemberInfo>();
 	
@@ -19,6 +20,36 @@
 		
 	
 %>
+    <%  //아이디와 비밀번호가 빈칸이 아니라면
+    	if(id !=null && pwd != null){
+    		//저장된 아이디와 비밀번호를 불러와서 사용자가 입력한 값과 비교
+    		for(int i = 0; i < members.size(); i++){
+    			
+    			//기존에 저장된 정보를  불러옴
+    			MemberInfo mem = (MemberInfo) members.get(i);
+    			
+    			//로그인이 되면 세션에 정보를 저장
+    			if(mem.getUserId().equals(id) && mem.getPassword().equals(pwd)){
+    				
+    				request.getSession().setAttribute("members", new MemberInfo(mem.getUserId(),"",mem.getUserName(),mem.getPhotoFile()));
+					
+    				// 아이디 기억박스가 체크되어 있으면
+    				if(rememberChk != null){
+    					Cookie cookie = new Cookie("id",id);
+    					response.addCookie(cookie);
+    					
+    				//아이디 기억박스가 해제되어 있으면
+    				} else{
+    					Cookie cookie = new Cookie("id","");
+    					cookie.setMaxAge(0);
+    					response.addCookie(cookie);
+    				}
+    				
+    				response.sendRedirect("myPage.jsp");
+    			} 
+    		}
+    	}
+    %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -39,20 +70,5 @@
     <h1> 아이디 또는 비밀번호가 틀립니다. 확인해주세요.</h1>
     <h1><a href = "loginform.jsp"> 다시 로그인 하기</a></h1>
     </div>
-    <%  //아이디와 비밀번호가 빈칸이 아니라면
-    	if(id !=null && pwd != null){
-    		//저장된 아이디와 비밀번호를 불러와서 사용자가 입력한 값과 비교
-    		for(int i = 0; i < members.size(); i++){
-    			//기존에 저장된 정보를  불러옴
-    			MemberInfo mem = (MemberInfo) members.get(i);
-    			//로그인이 되면 세션에 정보를 저장
-    			if(mem.getUserId().equals(id) && mem.getPassword().equals(pwd)){
-    				request.getSession(false).setAttribute("members", new MemberInfo(mem.getUserId(),"",mem.getUserName(),mem.getPhotoFile()));
-    				response.sendRedirect("myPage.jsp");
-    			}
-    		}
-    		
-    	}
-    %>
 </body>
 </html>

@@ -14,7 +14,7 @@
 	String pwd = request.getParameter("password");
 	String name = request.getParameter("userName");	
 	String photo = request.getParameter("photoFile");
-	 	
+	boolean overlap = false;
 	//멤버객체를 담을 리스트를 만듦
 	List<MemberInfo> memList = new ArrayList<MemberInfo>();
 	
@@ -27,10 +27,15 @@
 		
 		//list에 저장된 정보들 다 가져옴
 		for(int i = 0; i < memList.size(); i++){
-			
+		
 			MemberInfo savedMem = (MemberInfo)memList.get(i);
+			
 			//입력한 아이디와 저장된 아이디가 같다면
 			if(members.getUserId().equals(savedMem.getUserId())){
+				overlap = true;
+			}
+		}
+			if(overlap == true){
 				%>
 				<script>
 					alert("기존에 가입하신 아이디입니다")
@@ -46,12 +51,12 @@
 				response.sendRedirect("loginform.jsp");
 			}
 		
-		}
+		
 		
 	} else{
 		
 		memList.add(members);
-		application.setAttribute("members", members);
+		application.setAttribute("members", memList);
 		response.sendRedirect("loginform.jsp");
 	}
 	
