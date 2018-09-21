@@ -1,6 +1,10 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
 <%@page import="member.model.MemberInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
+<%@page import="java.sql.DriverManager" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -44,9 +48,10 @@
 		<td><h1>회원 ID</h1></td>
 		<td><h1>비밀번호</h1></td>
 		<td><h1>회원 이름</h1></td>
+		<td><h1>회원 사진</h1></td>
 		<td><h1>관리</h1></td>
 	</tr>
-<%
+<%-- <%
 	//어플리케이션에 저장된 정보를 전부 불러온다.
 	//테이블을 만들고 저장된 기존 정보를 차례대로 입력한다.
 	//어플리케이션에 저장된것이 있다면
@@ -68,6 +73,55 @@
 			<%
 		}
 	}
+%> --%>
+
+<%
+
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	Connection conn = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	
+	String url = "jdbc:oracle:thin:@localhost:1522:orcl";
+	String user = "scott";
+	String pw = "tiger";
+	
+	try{
+	conn = DriverManager.getConnection(url,user,pw);
+	
+	stmt = conn.createStatement();
+	
+	String sql = "select * from openproject";
+	
+	rs = stmt.executeQuery(sql);
+	
+	if(rs.next()){
+		do{
+			%>
+	<tr>	 <!-- rs.getInt(1)는 rs에 저장된 칼럼에서 1번째 컬럼을 불러옴 -->
+		<td><%= rs.getString(1) %></td>
+		<td><%= rs.getString(2) %></td>
+		<td><%= rs.getString(3) %></td>
+		<td><%= rs.getString(4) %></td>
+		<!-- 해당하는 행을 지우기 위해서 empno값을 불러줌 -->
+		<td><a href = "editForm.jsp?userid=<%= rs.getString(1) %>">수정</a> 
+			  <a href = "delete.jsp?userid=<%= rs.getString(1)%>">삭제</a></td>
+	</tr>
+			
+			<%
+			} while(rs.next());
+	} else{
+		%>
+		<tr>
+			<td colspan = "5">등록된 사원정보가 없습니다.</td>
+		</tr>
+		<%
+	}
+	} finally{
+		rs.close();
+		stmt.close();
+		conn.close();
+	}
 %>
 	
 </table>
@@ -75,6 +129,3 @@
 </body>
 </html>
 <%} %>
-<script>
-	
-</script>

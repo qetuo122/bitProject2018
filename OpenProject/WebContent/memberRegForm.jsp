@@ -14,7 +14,18 @@
 </head>
 <body>
 <%@ include file = "common/header.jsp" %>
-
+<%
+	MemberInfo mem = (MemberInfo) request.getSession(false).getAttribute("members");
+	
+	if(mem != null){
+		%>
+		<script>
+			alert("로그아웃후 이용하세요");
+			location.href("myPage.jsp");
+		</script>
+		<%
+	} else{
+%>
 <div id = #contents>
 <h2>회원 가입</h2>
     <hr>
@@ -43,3 +54,4 @@
     </form>
 </body>
 </html>
+<%}%>

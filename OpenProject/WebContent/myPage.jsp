@@ -4,15 +4,16 @@
 <%
 	
 	MemberInfo mem = (MemberInfo) request.getSession(false).getAttribute("members");
-	
-	if(mem == null) {
+
+	if(mem == null){
 		%>
 		<script>
-			alert('로그인 후 사용가능한 서비스 입니다.');
-			location.href = 'loginform.jsp';
+		alert("로그인후 이용가능합니다.");
+		location.href("loginform.jsp");
 		</script>
 		<%
-	} else {
+	}else {
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -57,4 +58,4 @@
         </table>
 </body>
 </html>
-<%} %>
+<%}%>
