@@ -7,14 +7,7 @@
 	
 	MemberInfo mem = (MemberInfo) request.getSession(false).getAttribute("members");
 	
-	if(mem == null) {
-		%>
-		<script>
-			alert('로그인 후 사용가능한 서비스 입니다.');
-			location.href = 'loginform.jsp';
-		</script>
-		<%
-	} else {
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -74,7 +67,7 @@
 
 </body>
 </html>
-<%} %>
+<% %>
 <script>
 	
 </script>

@@ -4,17 +4,43 @@
 <%@page import="member.model.MemberInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<jsp:useBean id="member" class = "member.model.MemberInfo" scope = "request"></jsp:useBean>
+<jsp:setProperty property="*" name="member"/>
+<jsp:useBean id="savedMem" class = "java.util.ArrayList" scope = "application"></jsp:useBean>
 
- <%
- 
-	request.setCharacterEncoding("utf-8");
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<c:choose>
+	<c:when test = "${savedMem != null}">
+		<c:forEach var = "mem" items = "${savedMem}">
+			<c:if test=""></c:if>
+		</c:forEach>
+		<c:when test="${member.userId} != ${savedMem.userId}">
+			<jsp:setProperty property="*" name="savedMem"/>
+			<c:redirect url = "loginform.jsp"/>		
+		</c:when>
+		<c:otherwise>
+			<script>
+				alert("이미 등록된 아이디입니다.")
+				location.href = "memberRegFrom.jsp"
+			</script>
+		</c:otherwise>
+	</c:when>
+	<c:otherwise>
+		<jsp:setProperty property="*" name="savedMem"/>
+		<c:redirect url = "lofinform.jsp"/>
+	</c:otherwise>
 	
+</c:choose>
+
+<%--  <%
+	request.setCharacterEncoding("utf-8");
  	// 회원아이디,비밀번호,이름 ,사진을 받아옴
 	String id = request.getParameter("userId");
 	String pwd = request.getParameter("password");
 	String name = request.getParameter("userName");	
 	String photo = request.getParameter("photoFile");
-	boolean overlap = false;
 	//멤버객체를 담을 리스트를 만듦
 	List<MemberInfo> memList = new ArrayList<MemberInfo>();
 	
@@ -32,16 +58,14 @@
 			
 			//입력한 아이디와 저장된 아이디가 같다면
 			if(members.getUserId().equals(savedMem.getUserId())){
-				overlap = true;
-			}
-		}
-			if(overlap == true){
+
 				%>
 				<script>
 					alert("기존에 가입하신 아이디입니다")
 					location.href = 'memberRegForm.jsp';
 				</script>
 				<%
+				
 			} else{
 				//리스트에 멤버객체를 담음
 				memList.add(members);
@@ -50,14 +74,13 @@
 				application.setAttribute("members", memList);
 				response.sendRedirect("loginform.jsp");
 			}
+		}
 		
-		
-		
-	} else{
+		} else{
 		
 		memList.add(members);
 		application.setAttribute("members", memList);
 		response.sendRedirect("loginform.jsp");
 	}
 	
- %>
+ %> --%>
