@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+*{
+	padding : 0px;
+	margin : 0px;
+}
+#gnb{
+	overflow: hidden;
+	border-top:1px solid  #333333;
+	border-bottom : 1px solid #333333;
+}
+
+h1.title{
+	padding : 10px;
+}
+
+#gnb>li{
+	float : left;
+	list-style : none;
+	padding: 10px;
+}
+
+#contents{
+	padding :15px;
+}
