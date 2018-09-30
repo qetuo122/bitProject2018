@@ -15,17 +15,18 @@
 <%
 	String id = request.getParameter("userid");
 
-Class.forName("oracle.jdbc.driver.OracleDriver");
 
 Connection conn = null;
 Statement stmt = null;
 ResultSet rs = null;
 
+/* Class.forName("oracle.jdbc.driver.OracleDriver");
 String url = "jdbc:oracle:thin:@localhost:1522:orcl";
 String user = "scott";
-String pw = "tiger";
+String pw = "tiger"; */
 
-conn = DriverManager.getConnection(url,user,pw);
+String jdbcUrl = "jdbc:apache:commons:dbcp:open";
+conn = DriverManager.getConnection(jdbcUrl);
 
 stmt = conn.createStatement();
 

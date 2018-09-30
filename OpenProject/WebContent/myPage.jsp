@@ -42,17 +42,19 @@
 <div id = #contents>
 	<h2>회원 정보</h2>
 
-	<div id = "memberPhoto"></div>
+	<div id = "memberPhoto">
+	<img alt="회원사진" src="<%= request.getContextPath()%>/uploadfile/${mem.photoFile}">
+	</div>
     <hr>
         <table>
             <tr>
                 <td>아이디(이메일)</td>
-                <td><%= mem.getUserId() %></td>
+                <td>${mem.userId}</td>
             </tr>
             
             <tr>
                 <td>이름</td>
-                <td><%= mem.getUserName() %></td>
+                <td>${mem.userName}</td>
             </tr>
             
         </table>

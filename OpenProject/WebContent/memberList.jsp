@@ -77,17 +77,18 @@
 
 <%
 
-	Class.forName("oracle.jdbc.driver.OracleDriver");
 	Connection conn = null;
 	Statement stmt = null;
 	ResultSet rs = null;
 	
+	/* Class.forName("oracle.jdbc.driver.OracleDriver");
 	String url = "jdbc:oracle:thin:@localhost:1522:orcl";
 	String user = "scott";
-	String pw = "tiger";
+	String pw = "tiger"; */
+	String jdbcUrl = "jdbc:apache:commons:dbcp:open";
 	
 	try{
-	conn = DriverManager.getConnection(url,user,pw);
+	conn = DriverManager.getConnection(jdbcUrl);
 	
 	stmt = conn.createStatement();
 	
@@ -102,7 +103,7 @@
 		<td><%= rs.getString(1) %></td>
 		<td><%= rs.getString(2) %></td>
 		<td><%= rs.getString(3) %></td>
-		<td><%= rs.getString(4) %></td>
+		<td><img alt="images/imagesi.png" src="<%= request.getContextPath()%>/uploadfile/<%=rs.getString(4)%>"></td>
 		<!-- 해당하는 행을 지우기 위해서 empno값을 불러줌 -->
 		<td><a href = "editForm.jsp?userid=<%= rs.getString(1) %>">수정</a> 
 			  <a href = "delete.jsp?userid=<%= rs.getString(1)%>">삭제</a></td>

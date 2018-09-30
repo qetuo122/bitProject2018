@@ -22,18 +22,21 @@
 	String name = request.getParameter("userName");
 	String photo = request.getParameter("photoFile");
 	
-	Class.forName("oracle.jdbc.driver.OracleDriver");
 	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	
+	/* Class.forName("oracle.jdbc.driver.OracleDriver");
 	String url = "jdbc:oracle:thin:@localhost:1522:orcl";
 	String user = "scott";
-	String pw = "tiger";
+	String pw = "tiger"; */
+	
+	// 위의 4가지 불러온 내용을 하나로 통합
+	String jdbcUrl = "jdbc:apache:commons:dbcp:open";
 	//수정이 완료되면 cnt가 변함
 	int cnt = -1;
 	try{
-	conn = DriverManager.getConnection(url,user,pw);
+	conn = DriverManager.getConnection(jdbcUrl);
 	
 	String sql = "update openproject set password = ?, username = ?, photofile = ? where userid = ?";
 	

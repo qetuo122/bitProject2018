@@ -20,9 +20,9 @@
     <load-on-startup>1</load-on-startup>
   </servlet> -->
   
-  <servlet>
+  <!-- <servlet>
   	<servlet-name>DBCPinit</servlet-name>
   	<servlet-class>jdbc.DBCPinit</servlet-class>
   	<load-on-startup>1</load-on-startup>
-  </servlet>
+  </servlet> -->
 </web-app>

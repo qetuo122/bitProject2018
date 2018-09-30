@@ -61,20 +61,22 @@
    		String rememberChk = request.getParameter("rememberChk");
    		
    		if(id != null && pwd != null){
-   		//드라이버에 연결
+   		/* //드라이버에 연결
    		 	Class.forName("oracle.jdbc.driver.OracleDriver");
    		 	
    		 	//데이터로그인 정보 불러옴
    		 	String url = "jdbc:oracle:thin:@localhost:1522:orcl";
    			String user = "scott";
-   			String pw = "tiger"; 
+   			String pw = "tiger";  */
    		 	
+   			String jdbcUrl = "jdbc:apache:commons:dbcp:open";
+   			
    		 	Connection conn = null;
    		 	PreparedStatement pstmt = null;
    			ResultSet rs = null;
    			
    		 	//데이터베이스에 로그인
-   		 	conn = DriverManager.getConnection(url,user,pw);
+   		 	conn = DriverManager.getConnection(jdbcUrl);
    		 	String sql = "select * from openproject where userid = ?";
    			
    		 	//sql문 실행
@@ -84,10 +86,11 @@
    		 	rs = pstmt.executeQuery();
    		 	
    		 	if(rs.next()){
-   		 		
+   		 		//파라미터로 불러온 아이디와 비밀번호를 데이터베이스에 저장된 아이디와 비밀번호와 비교후 로그인
   	 		 	if(id.equals(rs.getString("userid")) && pwd.equals(rs.getString("password"))) {
+  	 		 		//로그인이 되면 세션을 생성
   	 		 		request.getSession(false).setAttribute("members", new MemberInfo(rs.getString(1), "", rs.getString(3), rs.getString(4)));
-  	 		 		
+  	 		 		//로그인이 된 후 아이디기억부분이 체크되어있다면 쿠키를 생성
   	 		 		if(rememberChk != null){
   	 		 			Cookie cookie = new Cookie("id",id);
   	 		 			response.addCookie(cookie);
@@ -96,6 +99,7 @@
   	 		 			cookie.setMaxAge(0);
   	 		 			response.addCookie(cookie);
   	 		 		}
+  	 		 		//로그인이 되면 마이페이지로 넘김 
    			 		response.sendRedirect("myPage.jsp");
    			 		
    			 	} else{

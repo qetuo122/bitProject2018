@@ -29,7 +29,7 @@
 <div id = #contents>
 <h2>회원 가입</h2>
     <hr>
-    <form action = "regist.jsp" method = "post">
+    <form action = "regist.jsp" method = "post" enctype = "multipart/form-data">
         <table>
             <tr>
                 <td>아이디(이메일)</td>
