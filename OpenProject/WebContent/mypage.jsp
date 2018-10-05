@@ -9,7 +9,7 @@
 		%>
 		<script>
 		alert("로그인후 이용가능합니다.");
-		location.href("loginform.jsp");
+		location.href = "loginform.jsp";
 		</script>
 		<%
 	}else {
@@ -43,18 +43,18 @@
 	<h2>회원 정보</h2>
 
 	<div id = "memberPhoto">
-	<img alt="회원사진" src="<%= request.getContextPath()%>/uploadfile/${mem.photoFile}">
+	<img src="<%= request.getContextPath()%>/uploadfile/<%=mem.getPhotoFile()%>">
 	</div>
     <hr>
         <table>
             <tr>
                 <td>아이디(이메일)</td>
-                <td>${mem.userId}</td>
+                <td><%=mem.getUserId()%></td>
             </tr>
             
             <tr>
                 <td>이름</td>
-                <td>${mem.userName}</td>
+                <td><%=mem.getUserName()%></td>
             </tr>
             
         </table>

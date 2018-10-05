@@ -105,8 +105,8 @@
 		<td><%= rs.getString(3) %></td>
 		<td><img alt="images/imagesi.png" src="<%= request.getContextPath()%>/uploadfile/<%=rs.getString(4)%>"></td>
 		<!-- 해당하는 행을 지우기 위해서 empno값을 불러줌 -->
-		<td><a href = "editForm.jsp?userid=<%= rs.getString(1) %>">수정</a> 
-			  <a href = "delete.jsp?userid=<%= rs.getString(1)%>">삭제</a></td>
+		<td><a href = "editForm.jsp?userId=<%= rs.getString(1)%>">수정</a> 
+			  <a href = "delete.jsp?userId=<%= rs.getString(1)%>">삭제</a></td>
 	</tr>
 			
 			<%

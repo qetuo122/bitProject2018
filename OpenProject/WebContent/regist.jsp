@@ -10,7 +10,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="member.model.MemberInfo"%>
-<%@page import="java.sql.DriverManager" %>
+<%@page import="java.sql.DriverManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:useBean id = "bean" class = "member.model.MemberInfo"/>
@@ -95,7 +95,7 @@
  		//불러온 데이터가 텍스트형식인 경우
  		if(item.isFormField()){
 			//item에서 가져온 필드네임과 회원가입폼에서 가져온 id필드이름이 같으면 member객체에 item에 있는 정보를각각 저장 			
- 			if(item.getFieldName().equals("userid")){
+ 			if(item.getFieldName().equals("userId")){
  				member.setUserId(item.getString("utf-8"));
  			} else if (item.getFieldName().equals("password")){
  				member.setPassword(item.getString("utf-8"));
@@ -142,15 +142,14 @@
  	/* String url = "jdbc:oracle:thin:@localhost:1522:orcl";
 	String user = "scott";
 	String pw = "tiger"; */ 
- 	String jdbcUrl = "jdbc:apache:commons:dbcp:open";
+ 	/* String jdbcUrl = "jdbc:apache:commons:dbcp:open"; */
  	
  	Connection conn = null;
  	PreparedStatement pstmt = null;
  	int cnt = -1;
  	try{
  		//데이터베이스에  로그인
- 		conn = DriverManager.getConnection(jdbcUrl);
- 		
+ 		conn = DriverManager.getConnection("jdbc:apache:commons:dbcp:open");
  		String sql = "insert into openproject(userid, password, username, photofile) values (?,?,?,?)";
  		
  		//sql문 실행
@@ -162,9 +161,11 @@
  		pstmt.setString(3, member.getUserName());
  		pstmt.setString(4, member.getPhotoFile());
  		
+ 		cnt = 1;
  		//쿼리문 저장
  		pstmt.executeUpdate();
- 		cnt = 1;
+ 		
+ 		
  	} catch(Exception e){
  		e.getStackTrace();
  		
@@ -176,7 +177,7 @@
  		 %>
  		<script>
  		alert("이미 가입하신 아이디입니다.");
- 		location.href("memberRegForm.jsp");
+ 		location.href = "memberRegForm.jsp";
  		</script>
  		<%
  	} else {

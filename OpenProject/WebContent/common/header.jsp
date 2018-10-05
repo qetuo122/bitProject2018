@@ -23,7 +23,7 @@
         	} else{ %>
         	<li><a href="logout.jsp">로그아웃</a></li>
         <% } %>
-        <li><a href="myPage.jsp">마이페이지(회원)</a></li>
+        <li><a href="mypage.jsp">마이페이지(회원)</a></li>
         <li><a href="memberList.jsp">회원리스트(회원)</a></li>
     </ul>
     

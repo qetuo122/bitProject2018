@@ -21,7 +21,7 @@
 		%>
 		<script>
 			alert("로그아웃후 이용하세요");
-			location.href("myPage.jsp");
+			location.href("mypage.jsp");
 		</script>
 		<%
 	} else{
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td>사진</td>
-                <td><input type="file"  value = "사진선택"  alt = "사진없음" name = "photoFile"></td>
+                <td><input type="file"  value = "사진선택" name = "photoFile"></td>
             </tr>
             <tr>
                 <td colspan="2"><input type = "submit" value = "등록"></td>

@@ -33,8 +33,8 @@
 
 			pstmt.setString(1, id);
 
-			pstmt.executeUpdate();
 			cnt = 1;
+			pstmt.executeUpdate();
 			
 		} finally {
 			pstmt.close();
@@ -44,7 +44,7 @@
 	%>
 	<script>
 		alert("삭제되었습니다.");
-		location.href("memberList.jsp");
+		location.href = "memberList.jsp";
 	</script>
 	<%
 		}

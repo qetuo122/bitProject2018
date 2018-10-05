@@ -46,9 +46,9 @@
 	pstmt.setString(3, photo);
 	pstmt.setString(4, id);
 	
+	cnt = 1;
 	pstmt.executeUpdate();
 	
-	cnt = 1;
 	} finally{
 		pstmt.close();
 		conn.close();
@@ -58,7 +58,7 @@
 		%>
 		<script>
 			alert("수정이 완료되었습니다.");
-			location.href("memberList.jsp");
+			location.href = "memberList.jsp";
 		</script>
 		<%
 	}

@@ -100,7 +100,7 @@
   	 		 			response.addCookie(cookie);
   	 		 		}
   	 		 		//로그인이 되면 마이페이지로 넘김 
-   			 		response.sendRedirect("myPage.jsp");
+   			 		response.sendRedirect("mypage.jsp");
    			 		
    			 	} else{
    		 		%>

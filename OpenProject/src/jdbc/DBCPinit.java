@@ -44,7 +44,7 @@ public class DBCPinit extends HttpServlet {
 
 	private void initConnectionPool() {
 		
-		String jdbcDriver = "jdbc:oracle:thin:localhost:1522:orcl";
+		String jdbcDriver = "jdbc:oracle:thin:@localhost:1522:orcl";
 		String username = "scott";
 		String pw = "tiger";
 		
