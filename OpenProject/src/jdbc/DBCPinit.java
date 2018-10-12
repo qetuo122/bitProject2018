@@ -44,9 +44,9 @@ public class DBCPinit extends HttpServlet {
 
 	private void initConnectionPool() {
 		
-		String jdbcDriver = "jdbc:oracle:thin:@localhost:1522:orcl";
-		String username = "scott";
-		String pw = "tiger";
+		String jdbcDriver = "jdbc:oracle:thin:@open-oracle.cljs8v4m8ntk.ap-northeast-2.rds.amazonaws.com:1521:orcl";
+		String username = "bit";
+		String pw = "bitcamp1234";
 		
 		try{
 		ConnectionFactory connFactory = new DriverManagerConnectionFactory(jdbcDriver, username, pw);
