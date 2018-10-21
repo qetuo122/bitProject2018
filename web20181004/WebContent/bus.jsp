@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%> <!-- ì„ ì–¸ë¶€ ë°‘ì— ìœ„ì¹˜í•´ì•¼í•œë‹¤. -->
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -45,7 +47,7 @@
 </head>
 <body>
 <input type = "text" id = "code">
-<input type = "button" id = "bnt" name = "bnt" value = "°Ë»ö">
+<input type = "button" id = "bnt" name = "bnt" value = "ê²€ìƒ‰">
 <div id="map" ></div>
 <div id = "info"></div>
 
@@ -58,81 +60,90 @@
 		$('#bnt').on('click', function(){
 		
 		var code = $('#code').val();
-		var staName; // ÁöÇÏÃ¶¿ª ÀÌ¸§
-		var line; // ¶óÀÎ
-		var lati; // À§µµ
-		var longi; // °æµµ
+		var staName; // ì§€í•˜ì² ì—­ ì´ë¦„
+		var line = []; // ë¼ì¸
+		var lati; // ìœ„ë„
+		var longi; // ê²½ë„
+		var list = [];
 		
-		var imageSrc = 'images/train.png', // ¸¶Ä¿ÀÌ¹ÌÁöÀÇ ÁÖ¼ÒÀÔ´Ï´Ù    
-	    imageSize = new daum.maps.Size(50, 50), // ¸¶Ä¿ÀÌ¹ÌÁöÀÇ Å©±âÀÔ´Ï´Ù
-	    imageOption = {offset: new daum.maps.Point(27, 69)}; // ¸¶Ä¿ÀÌ¹ÌÁöÀÇ ¿É¼ÇÀÔ´Ï´Ù. ¸¶Ä¿ÀÇ ÁÂÇ¥¿Í ÀÏÄ¡½ÃÅ³ ÀÌ¹ÌÁö ¾È¿¡¼­ÀÇ ÁÂÇ¥¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+		var imageSrc = 'images/train.png', // ë§ˆì»¤ì´ë¯¸ì§€ì˜ ì£¼ì†Œì…ë‹ˆë‹¤    
+	    imageSize = new daum.maps.Size(50, 50), // ë§ˆì»¤ì´ë¯¸ì§€ì˜ í¬ê¸°ì…ë‹ˆë‹¤
+	    imageOption = {offset: new daum.maps.Point(27, 69)}; // ë§ˆì»¤ì´ë¯¸ì§€ì˜ ì˜µì…˜ì…ë‹ˆë‹¤. ë§ˆì»¤ì˜ ì¢Œí‘œì™€ ì¼ì¹˜ì‹œí‚¬ ì´ë¯¸ì§€ ì•ˆì—ì„œì˜ ì¢Œí‘œë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
 		
 	    $.ajax({
 	    	url : "http://openapi.seoul.go.kr:8088/77466652517165743938726f73634a/xml/SearchInfoBySubwayNameService/1/5/" + code,
 	    	success : function(value){
-	    		alert($(value).find('STATION_NM').text());
-	    		if(code == $(value).find('STATION_NM').text()){
-	    			var staCode = $(value).find('FR_CODE').text();
+	    		var names = []; //ì—­ì´ë¦„, ì—­ì½”ë“œ, ì—­ë¼ì¸ì„ ëª¨ë‘ë‹´ëŠ” ë°°ì—´
+	    		$(value).find('row').each(function(){ // ì—­ì´ë¦„ê³¼ ê´€ë ¨ëœ rowì¤„ì„ ë‹¤ ì°¾ìŒ
+	    			var name = {title : $(this).find('STATION_NM').text(), //ì—­ì´ë¦„
+	    						frCode : $(this).find('FR_CODE').text(), //ì—­ ì½”ë“œ
+	    						line : $(this).find('LINE_NUM').text() //ì—­ ë¼ì¸
+	    						};
+	    			names.push(name); //ë°°ì—´ì— ë°ì´í„°ë¥¼ ë„£ìŒ
+	    		});
+	    			alert(names[1].frCode);
+	    		if(code == names[0].title){
+	    			var staCode = names[0].frCode;
 	    			alert(staCode);
-		$.ajax({
-			url : "http://openapi.seoul.go.kr:8088/77466652517165743938726f73634a/xml/SearchLocationOfSTNByFRCodeService/1/5/" + staCode,
-			success : function(data) {
-				$(data).find('row').each(function(){
-					staName = $(this).find('STATION_NM').text();
-					line = $(this).find('LINE_NUM').text();
-					lati = $(this).find('XPOINT_WGS').text();
-					longi = $(this).find('YPOINT_WGS').text();
-					var mapContainer = document.getElementById('map'), // Áöµµ¸¦ Ç¥½ÃÇÒ div 
-					mapOption = {
-						center : new daum.maps.LatLng(lati, longi), // ÁöµµÀÇ Áß½ÉÁÂÇ¥
-						level : 3 // ÁöµµÀÇ È®´ë ·¹º§
+				$.ajax({
+					url : "http://openapi.seoul.go.kr:8088/77466652517165743938726f73634a/xml/SearchLocationOfSTNByFRCodeService/1/5/" + staCode,
+					success : function(data) {
+						$(data).find('row').each(function(){
+							lati = $(this).find('XPOINT_WGS').text();
+							longi = $(this).find('YPOINT_WGS').text();
+						});
+							var mapContainer = document.getElementById('map'), // ì§€ë„ë¥¼ í‘œì‹œí•  div 
+							mapOption = {
+								center : new daum.maps.LatLng(lati, longi), // ì§€ë„ì˜ ì¤‘ì‹¬ì¢Œí‘œ
+								level : 3 // ì§€ë„ì˜ í™•ëŒ€ ë ˆë²¨
 								
-					};
-					var map = new daum.maps.Map(mapContainer, mapOption); // Áöµµ¸¦ »ı¼ºÇÕ´Ï´Ù
-					// ¸¶Ä¿°¡ Ç¥½ÃµÉ À§Ä¡ÀÔ´Ï´Ù 
-					var markerPosition = new daum.maps.LatLng(lati, longi);
+							};
+							var map = new daum.maps.Map(mapContainer, mapOption); // ì§€ë„ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
+							// ë§ˆì»¤ê°€ í‘œì‹œë  ìœ„ì¹˜ì…ë‹ˆë‹¤ 
+							var markerPosition = new daum.maps.LatLng(lati, longi);
 					
-					//¸¶Ä¿ ÀÌ¹ÌÁö µî·Ï
-					var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption)
+							//ë§ˆì»¤ ì´ë¯¸ì§€ ë“±ë¡
+							var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption)
 					
-					// ¸¶Ä¿¸¦ »ı¼ºÇÕ´Ï´Ù
-					var marker = new daum.maps.Marker({
-					position : markerPosition,
-					image: markerImage
-					});
+							// ë§ˆì»¤ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
+							var marker = new daum.maps.Marker({
+							position : markerPosition,
+							image: markerImage
+							});
 
-					// ¸¶Ä¿°¡ Áöµµ À§¿¡ Ç¥½ÃµÇµµ·Ï ¼³Á¤ÇÕ´Ï´Ù
-					marker.setMap(map);
+							// ë§ˆì»¤ê°€ ì§€ë„ ìœ„ì— í‘œì‹œë˜ë„ë¡ ì„¤ì •í•©ë‹ˆë‹¤
+							marker.setMap(map);
 					
-					var content = '<div class="customoverlay">' +
-				    '  <a href="http://map.daum.net/link/map/" target="_blank">' +
-				    '    <span class="title">' + staName + '</span>' +
-				    '  </a>' +
-				    '</div>';
+							var content = '<div class="customoverlay">' +
+						    '  <a href="http://map.daum.net/link/map/" target="_blank">' +
+						    '    <span class="title">' + staName + '</span>' +
+				    		'  </a>' +
+				    		'</div>';
 
-				// Ä¿½ºÅÒ ¿À¹ö·¹ÀÌ°¡ Ç¥½ÃµÉ À§Ä¡ÀÔ´Ï´Ù 
-				var position = new daum.maps.LatLng(lati, longi);  
+						// ì»¤ìŠ¤í…€ ì˜¤ë²„ë ˆì´ê°€ í‘œì‹œë  ìœ„ì¹˜ì…ë‹ˆë‹¤ 
+						var position = new daum.maps.LatLng(lati, longi);  
 
-				// Ä¿½ºÅÒ ¿À¹ö·¹ÀÌ¸¦ »ı¼ºÇÕ´Ï´Ù
-				var customOverlay = new daum.maps.CustomOverlay({
-				    map: map,
-				    position: position,
-				    content: content,
-				    yAnchor: 1 
+						// ì»¤ìŠ¤í…€ ì˜¤ë²„ë ˆì´ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
+						var customOverlay = new daum.maps.CustomOverlay({
+						    map: map,
+				    		position: position,
+				    		content: content,
+				    		yAnchor: 1 
+						});
+
+							// ì•„ë˜ ì½”ë“œëŠ” ì§€ë„ ìœ„ì˜ ë§ˆì»¤ë¥¼ ì œê±°í•˜ëŠ” ì½”ë“œì…ë‹ˆë‹¤
+							// marker.setMap(null);
+					
+						//});
+						$('#info').html("<h2 id = 'text'> ì§€í•˜ì²  í˜¸ì„  : <span id = 'tspan'>" + line + "í˜¸ì„ </span> ì§€í•˜ì²  ì—­ : <span id = 'tspan'>" + staName + "ì—­</span></h2>");
+					}
 				});
-
-					// ¾Æ·¡ ÄÚµå´Â Áöµµ À§ÀÇ ¸¶Ä¿¸¦ Á¦°ÅÇÏ´Â ÄÚµåÀÔ´Ï´Ù
-					// marker.setMap(null);
-					
-				});
-				$('#info').html("<h2 id = 'text'> ÁöÇÏÃ¶ È£¼± : <span id = 'tspan'>" + line + "È£¼±</span> ÁöÇÏÃ¶ ¿ª : <span id = 'tspan'>" + staName + "¿ª</span></h2>");
-			}
-		});
-	    		} else{
-	    			alert("¿Ã¹Ù¸¥ ¿ª¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä");
-	    		}
-	    	}
-	    });
+			    		} else{
+	    					alert("ì˜¬ë°”ë¥¸ ì—­ëª…ì„ ì…ë ¥í•˜ì„¸ìš”");
+			    		}
+	    				//});
+	    			}
+	    		});
 	    
 	
 
