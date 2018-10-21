@@ -123,6 +123,7 @@
  				item.write(file);
  				//멤버객체에 파일 저장
  				member.setPhotoFile(newFileName);
+ 				
  			}
  		}
  	}

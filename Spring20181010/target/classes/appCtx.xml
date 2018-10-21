@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+	
+	<context:annotation-config />
+	<!-- memberDao를 불러와 여러 빈에서 사용할 수 있도록 함 -->
+	<bean id="memberDao1" class="spring.MemberDao">
+		<!-- 타입이 여러개일때 Qualifier를 지정하면 지징된 것을 찾음 -->
+		<qualifier value = "select"/>
+	</bean>
+	
+	<!--appCtx2와 appCtx3을 임포트해서 사용함  -->
+	<!-- <import resource="classpath:appCtx2.xml"/> -->
+	<!-- <import resource="classpath:appCtx3.xml"/> -->
+	
+	<!-- 멤버 레지스터서비스에서 memberDao이름을 찾음 -->
+	<!-- @Autowired를 사용하면 아래 문장만 적어주면 됨 -->
+	<bean id = "memberRegSvc" class = "spring.MemberRegisterService"> 
+	
+	<!--생성자 주입방식
+	<constructor-arg ref="memberDao" /> -->
+	</bean>
+	
+	<!-- <bean id = "memberRegSvc"
+		class = "spring.MemberRegisterService"
+		autowire = "byName"> 
+	</bean> -->
+	
+	<!-- @Autowired를 사용하면 아래 문장만 적어주면 됨 -->
+	<bean id="changePwdSvc" class="spring.ChangePasswordService">
+	<!-- 생성자 주입방식
+	<constructor-arg ref="memberDao" /> -->
+	
+	</bean>
+	
+	<!-- <bean id="changePwdSvc" class="spring.ChangePasswordService" 
+		autowire="byName">
+	</bean> -->
+	<!-- @Autowired를 사용하면 아래 문장만 적어주면 됨 -->
+	<bean id = "guestDao" class = "spring.GuestDao">
+	</bean>
+
+
+</beans>
